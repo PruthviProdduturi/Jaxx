@@ -1,6 +1,20 @@
-# Jaxx
+<div align="center">
 
-**Give an agent a mandate it can't overstep.**
+<img src="docs/banner.svg" alt="Jaxx — give an agent a mandate it can't overstep." width="820">
+
+[Docs](https://pruthviprodduturi.github.io/Jaxx/) ·
+[The rails](skills/jaxx-consent/SKILL.md) ·
+[Install](#install) ·
+[Contributing](CONTRIBUTING.md)
+
+[![validate](https://github.com/PruthviProdduturi/Jaxx/actions/workflows/validate.yml/badge.svg)](https://github.com/PruthviProdduturi/Jaxx/actions/workflows/validate.yml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Agent Plugins 1.0.0](https://img.shields.io/badge/agent--plugins-1.0.0-7fb0ff.svg)](https://agent-plugins.org)
+[![docs](https://img.shields.io/badge/docs-live-7ee2a8.svg)](https://pruthviprodduturi.github.io/Jaxx/)
+
+</div>
+
+---
 
 Most agent tooling answers *what can this agent do*. Jaxx answers the questions that actually bite
 once an agent starts speaking in your name in front of your colleagues:
