@@ -22,7 +22,7 @@
 <link rel="apple-touch-icon" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0a0c10;
@@ -39,6 +39,9 @@
     --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
     --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     --wrap: 1140px;
+    /* light appears to fall from above: a hairline highlight on every raised edge */
+    --lift: inset 0 1px 0 rgba(255,255,255,0.055);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.4), 0 8px 24px -12px rgba(0,0,0,0.6);
   }
 
   * { box-sizing: border-box; }
@@ -55,6 +58,18 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
+  /* A large flat dark field reads as cheap on a big display. This is a
+     near-invisible grid that only shows up as texture, never as lines. */
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.017) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.017) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(120% 80% at 50% 0%, #000 0%, transparent 72%);
+    -webkit-mask-image: radial-gradient(120% 80% at 50% 0%, #000 0%, transparent 72%);
+  }
+  body > * { position: relative; z-index: 1; }
 
   a { color: inherit; }
 
@@ -74,15 +89,19 @@
     display: flex; align-items: center; gap: 32px;
   }
   .brand {
-    display: flex; align-items: center; gap: 11px;
-    font-weight: 700; letter-spacing: -0.02em; font-size: 17px;
-    text-decoration: none;
+    display: inline-flex; align-items: center;
+    font-weight: 700; letter-spacing: -0.022em; font-size: 17.5px;
+    text-decoration: none; color: var(--text);
   }
-  .mark {
-    width: 20px; height: 24px; display: block;
-    color: var(--accent); flex: none;
+  /* The mark is the wordmark. The rail sits under the J and nowhere else:
+     one letter, doing both jobs. The favicon is this J, cropped. */
+  .brand .j { position: relative; display: inline-block; }
+  .brand .j::after {
+    content: ""; position: absolute;
+    left: -0.06em; right: -0.02em; bottom: -0.30em; height: 0.115em;
+    min-height: 2px; border-radius: 999px;
+    background: var(--accent);
   }
-  .mark .rail { fill: currentColor; }
   .navlinks { display: flex; gap: 26px; margin-left: auto; align-items: center; }
   .navlinks a {
     font-size: 14px; color: var(--dim); text-decoration: none;
@@ -99,9 +118,15 @@
     border: 1px solid transparent;
     transition: background .15s ease, border-color .15s ease, transform .15s ease;
   }
-  .btn.primary { background: var(--accent); color: #06162f; }
-  .btn.primary:hover { background: #8bbcff; }
-  .btn.ghost { border-color: var(--line-strong); color: var(--text); }
+  .btn.primary {
+    background: var(--accent); color: #06162f;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.28) inset, 0 8px 24px -8px rgba(110,168,255,0.55);
+  }
+  .btn.primary:hover {
+    background: #8bbcff;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.34) inset, 0 10px 30px -8px rgba(110,168,255,0.7);
+  }
+  .btn.ghost { border-color: var(--line-strong); color: var(--text); box-shadow: var(--lift); }
   .btn.ghost:hover { background: var(--surface-2); border-color: rgba(255,255,255,0.28); }
   .btn.sm { padding: 7px 14px; font-size: 13.5px; }
 
@@ -110,7 +135,6 @@
   .hero {
     position: relative;
     padding: 104px 0 92px;
-    border-bottom: 1px solid var(--line);
     overflow: hidden;
   }
   .hero::before {
@@ -123,8 +147,9 @@
   .hero .wrap {
     position: relative;
     display: grid; grid-template-columns: minmax(0,1.05fr) minmax(0,0.95fr);
-    gap: 64px; align-items: center;
+    gap: 64px; align-items: start;
   }
+  .hero .wrap > div:first-child { padding-top: 4px; }
 
   .pill {
     display: inline-flex; align-items: center; gap: 8px;
@@ -158,7 +183,7 @@
     background: linear-gradient(180deg, var(--surface-2), var(--surface));
     border: 1px solid var(--line);
     border-radius: 14px;
-    box-shadow: 0 24px 60px -20px rgba(0,0,0,0.8);
+    box-shadow: var(--lift), 0 24px 60px -20px rgba(0,0,0,0.8);
     overflow: hidden;
   }
   .panel-top {
@@ -204,7 +229,14 @@
 
   /* ---------- sections ---------- */
 
-  section { padding: 88px 0; border-bottom: 1px solid var(--line); }
+  section { padding: 88px 0; position: relative; }
+  /* Dividers fade out at the edges instead of hitting the viewport wall.
+     A full-bleed hairline reads as a wireframe; this reads as a seam. */
+  .hero::after, section::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--line-strong) 20%, var(--line-strong) 80%, transparent);
+    pointer-events: none;
+  }
   .label {
     font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.14em;
     text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
@@ -245,9 +277,13 @@
     border: 1px solid var(--line);
     border-radius: 12px;
     padding: 22px 22px 24px;
-    transition: border-color .18s ease, transform .18s ease;
+    box-shadow: var(--lift), var(--shadow-sm);
+    transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
   }
-  .card:hover { border-color: var(--line-strong); transform: translateY(-2px); }
+  .card:hover {
+    border-color: var(--line-strong); transform: translateY(-2px);
+    box-shadow: var(--lift), 0 1px 2px rgba(0,0,0,0.4), 0 18px 40px -16px rgba(0,0,0,0.75);
+  }
   .card .n {
     font-family: var(--mono); font-size: 12px; color: var(--faint);
     border: 1px solid var(--line); border-radius: 6px;
@@ -265,6 +301,7 @@
   pre {
     margin: 0; background: var(--surface); border: 1px solid var(--line);
     border-radius: 12px; padding: 20px 22px; overflow-x: auto;
+    box-shadow: var(--lift), var(--shadow-sm);
   }
   pre code { font-family: var(--mono); font-size: 14px; line-height: 2; color: var(--text); }
   pre .c { color: var(--faint); }
@@ -300,6 +337,17 @@
   footer a:hover { color: var(--text); }
   footer .links { display: flex; gap: 24px; flex-wrap: wrap; }
 
+  /* ---------- entrance ---------- */
+
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      opacity: 0; transform: translateY(14px);
+      transition: opacity .6s cubic-bezier(.22,.61,.36,1), transform .6s cubic-bezier(.22,.61,.36,1);
+      will-change: opacity, transform;
+    }
+    .reveal.in { opacity: 1; transform: none; }
+  }
+
   /* ---------- responsive ---------- */
 
   @media (max-width: 1000px) {
@@ -322,7 +370,7 @@
 
 <nav class="nav">
   <div class="wrap">
-    <a class="brand" href="#top"><svg class="mark" viewBox="51 38 152 184" aria-hidden="true" focusable="false"><path d="M167 52 L167 138 A40 40 0 0 1 87 138" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/><rect class="rail" x="51" y="204" width="152" height="18" rx="9"/></svg> Jaxx</a>
+    <a class="brand" href="#top"><span class="j">J</span>axx</a>
     <div class="navlinks">
       <a href="#cycle">How it works</a>
       <a href="#why">Why not a prompt</a>
@@ -683,7 +731,7 @@
 <footer>
   <div class="wrap cols">
     <div>
-      <a class="brand" href="#top" style="margin-bottom:10px"><svg class="mark" viewBox="51 38 152 184" aria-hidden="true" focusable="false"><path d="M167 52 L167 138 A40 40 0 0 1 87 138" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/><rect class="rail" x="51" y="204" width="152" height="18" rx="9"/></svg> Jaxx</a><br>
+      <a class="brand" href="#top" style="margin-bottom:10px"><span class="j">J</span>axx</a><br>
       MIT licensed &middot; a personal project, not affiliated with or endorsed by any employer.
     </div>
     <div class="links">
@@ -694,6 +742,36 @@
     </div>
   </div>
 </footer>
+
+<script>
+(function () {
+  var motionOK = window.matchMedia("(prefers-reduced-motion: no-preference)").matches;
+  if (!motionOK || !("IntersectionObserver" in window)) return;
+
+  var targets = [];
+  document.querySelectorAll("section").forEach(function (s) {
+    var w = s.querySelector(".wrap");
+    if (w) targets = targets.concat(Array.prototype.slice.call(w.children));
+  });
+  if (!targets.length) return;
+
+  targets.forEach(function (el) { el.classList.add("reveal"); });
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var el = e.target;
+      // Stagger siblings so a row of cards resolves left to right.
+      var i = Array.prototype.indexOf.call(el.parentNode.children, el);
+      el.style.transitionDelay = Math.min(i, 5) * 60 + "ms";
+      el.classList.add("in");
+      io.unobserve(el);
+    });
+  }, { rootMargin: "0px 0px -12% 0px", threshold: 0.08 });
+
+  targets.forEach(function (el) { io.observe(el); });
+}());
+</script>
 
 </body>
 </html>
