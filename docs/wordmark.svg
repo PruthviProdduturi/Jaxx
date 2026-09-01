@@ -1,13 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="600" height="160" viewBox="0 0 600 160" role="img" aria-label="Jaxx - give an agent a mandate it can't overstep">
   <title>Jaxx</title>
   <rect width="600" height="160" rx="16" fill="#0d1117"/>
-  <g transform="translate(20 16) scale(0.5)">
-    <rect width="256" height="256" rx="56" fill="#161b22"/>
-    <path d="M167 52 L167 138 A40 40 0 0 1 87 138"
-          fill="none" stroke="#e6edf3" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
-    <rect x="51" y="204" width="152" height="18" rx="9" fill="#7fb0ff"/>
-    <rect x="1.5" y="1.5" width="253" height="253" rx="54.5" fill="none" stroke="#2a313c" stroke-width="3"/>
-  </g>
-  <text x="180" y="84" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="64" font-weight="700" letter-spacing="-2" fill="#e6edf3">Jaxx</text>
-  <text x="184" y="117" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="17" fill="#8b98a8">Give an agent a mandate it can&#8217;t overstep.</text>
+
+  <!-- The mark is the wordmark: the rail sits under the J and nowhere else. -->
+  <text x="40" y="80" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="64" font-weight="700" letter-spacing="-2" fill="#e6edf3">Jaxx</text>
+  <rect x="39" y="92" width="38" height="5" rx="2.5" fill="#7fb0ff"/>
+
+  <text x="40" y="128" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="17" fill="#8b98a8">Give an agent a mandate it can&#8217;t overstep.</text>
 </svg>
