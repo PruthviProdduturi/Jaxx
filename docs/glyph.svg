@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="112" height="104" viewBox="18 26 220 194" role="img" aria-label="Jaxx">
+<svg xmlns="http://www.w3.org/2000/svg" width="92" height="112" viewBox="51 38 152 184" role="img" aria-label="Jaxx">
   <title>Jaxx</title>
-  <path d="M110 48 L164 48 L164 137 A38 38 0 0 1 88 137"
-        fill="none" stroke="currentColor" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
-  <rect x="26" y="192" width="204" height="18" rx="9" fill="#7fb0ff"/>
+  <path d="M167 52 L167 138 A40 40 0 0 1 87 138"
+        fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="51" y="204" width="152" height="18" rx="9" fill="#7fb0ff"/>
 </svg>

@@ -3,8 +3,8 @@
 
   <g transform="translate(96 96) scale(0.5)">
     <rect width="256" height="256" rx="56" fill="#161b22"/>
-    <path d="M110 48 L164 48 L164 137 A38 38 0 0 1 88 137" fill="none" stroke="#e6edf3" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
-    <rect x="26" y="196" width="204" height="16" rx="8" fill="#7fb0ff"/>
+    <path d="M167 52 L167 138 A40 40 0 0 1 87 138" fill="none" stroke="#e6edf3" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="51" y="204" width="152" height="18" rx="9" fill="#7fb0ff"/>
     <rect x="1.5" y="1.5" width="253" height="253" rx="54.5" fill="none" stroke="#2a313c" stroke-width="3"/>
   </g>
 
