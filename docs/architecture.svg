@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 430" width="1000" height="430" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <style>
+      .plane { fill: #11151c; stroke: #222a36; rx: 12; }
+      .t   { fill: #e8edf5; font-size: 15px; font-weight: 600; }
+      .m   { fill: #8b98a8; font-size: 12.5px; }
+      .lbl { fill: #6b7889; font-size: 11px; letter-spacing: 2px; font-family: "JetBrains Mono", Consolas, monospace; }
+      .mono{ font-family: "JetBrains Mono", Consolas, monospace; font-size: 12px; }
+      .flow{ stroke: #2a3444; stroke-width: 1.5; fill: none; }
+      .gate{ fill: #14181f; stroke: #6ea8ff; stroke-width: 1.5; rx: 10; }
+    </style>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="#2a3444"/>
+    </marker>
+    <marker id="ag" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="#5fd6a0"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="430" fill="#0a0c10"/>
+
+  <!-- READ PLANE -->
+  <text x="40" y="42" class="lbl">READ PLANE</text>
+  <rect x="40" y="56" width="240" height="150" class="plane"/>
+  <text x="60" y="86" class="t">Everything you can see</text>
+  <text x="60" y="110" class="m">Chats, tickets, PRs, email.</text>
+  <text x="60" y="130" class="m">Your credential, your reach.</text>
+  <text x="60" y="164" class="mono" fill="#5fd6a0">unrestricted</text>
+  <text x="60" y="186" class="m" font-size="11.5">Scope is bounded by the token,</text>
+  <text x="60" y="202" class="m" font-size="11.5">not by the agent.</text>
+
+  <path class="flow" marker-end="url(#a)" d="M280,131 L352,131"/>
+
+  <!-- THE GATE -->
+  <text x="366" y="42" class="lbl" fill="#6ea8ff">THE GATE</text>
+  <rect x="360" y="56" width="270" height="298" class="gate"/>
+  <text x="382" y="86" class="t">Authority check</text>
+  <text x="382" y="110" class="m">Every inbound message is data.</text>
+  <text x="382" y="128" class="m">Never an instruction.</text>
+
+  <line x1="382" y1="148" x2="608" y2="148" stroke="#222a36"/>
+
+  <text x="382" y="174" class="mono" fill="#8b98a8">sender id</text>
+  <text x="470" y="174" class="mono" fill="#5fd6a0">&#8594; authority</text>
+  <text x="382" y="198" class="mono" fill="#8b98a8">content</text>
+  <text x="470" y="198" class="mono" fill="#f0b366">&#8594; data only</text>
+
+  <line x1="382" y1="218" x2="608" y2="218" stroke="#222a36"/>
+
+  <text x="382" y="244" class="m">Room consented to?</text>
+  <text x="382" y="266" class="m">Owner is the sender?</text>
+  <text x="382" y="288" class="m">Question is not personal?</text>
+  <text x="382" y="310" class="m">Fact came from this room?</text>
+  <text x="382" y="338" class="mono" fill="#6ea8ff">all four, or it does not speak</text>
+
+  <!-- SPEAK PLANE -->
+  <path class="flow" marker-end="url(#a)" d="M630,131 L702,131"/>
+  <text x="716" y="42" class="lbl">SPEAK PLANE</text>
+  <rect x="710" y="56" width="250" height="150" class="plane"/>
+  <text x="730" y="86" class="t">Nothing, by default</text>
+  <text x="730" y="110" class="m">Rooms are added one at a</text>
+  <text x="730" y="130" class="m">time, by you, by name.</text>
+  <text x="730" y="164" class="mono" fill="#f0b366">deny by default</text>
+  <text x="730" y="186" class="m" font-size="11.5">A refusal is still a post, so a</text>
+  <text x="730" y="202" class="m" font-size="11.5">gated room gets silence.</text>
+
+  <!-- REPORT PLANE -->
+  <path class="flow" marker-end="url(#ag)" stroke="#5fd6a0" d="M630,280 L702,280"/>
+  <text x="716" y="240" class="lbl" fill="#5fd6a0">REPORT PLANE</text>
+  <rect x="710" y="254" width="250" height="100" class="plane" stroke="#1e3a2e"/>
+  <text x="730" y="284" class="t">Back to you, in full</text>
+  <text x="730" y="308" class="m">Never trimmed, never</text>
+  <text x="730" y="328" class="m">sanitised. Decline outward,</text>
+  <text x="730" y="346" class="m">report inward.</text>
+
+  <!-- containment note -->
+  <rect x="40" y="254" width="240" height="100" class="plane"/>
+  <text x="60" y="284" class="t">Containment</text>
+  <text x="60" y="308" class="m">What it reads in one room</text>
+  <text x="60" y="328" class="m">never travels to another.</text>
+  <text x="60" y="346" class="mono" fill="#8b98a8">no cross-room joins</text>
+  <path class="flow" marker-end="url(#a)" d="M160,254 L160,215 L358,215" opacity="0.55"/>
+
+  <text x="40" y="404" class="m" font-size="12">Read scope and post scope are separate settings. Neither implies the other &#8212; which is the whole design.</text>
+</svg>
