@@ -1,0 +1,63 @@
+name: Behaviour does not match the docs
+description: A skill, command, or setup step behaves differently than it is written.
+title: "bug: "
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where
+      options:
+        - jaxx-consent
+        - jaxx-responder
+        - jaxx-memory
+        - /jaxx-setup
+        - /jaxx-check
+        - /jaxx-standup
+        - Docs or README
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What the docs say
+      description: Quote the line, and link it if you can.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What actually happened
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: How to reproduce
+      description: >-
+        The prompt or command, and the surrounding setup. Redact anything real — a placeholder
+        chat id reproduces the problem just as well.
+      render: text
+
+  - type: input
+    id: agent
+    attributes:
+      label: Agent and version
+      placeholder: Copilot CLI 1.0.81
+
+  - type: textarea
+    id: mcp
+    attributes:
+      label: MCP servers configured
+      description: Names only. Never paste a config file — they hold identifiers.
+
+  - type: checkboxes
+    id: hygiene
+    attributes:
+      label: Before you post
+      options:
+        - label: No real chat ids, tenant ids, message content, or other people's names.
+          required: true

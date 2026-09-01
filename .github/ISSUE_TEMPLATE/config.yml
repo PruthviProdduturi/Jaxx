@@ -1,0 +1,10 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Rail bypass, against a live deployment
+    url: https://github.com/PruthviProdduturi/Jaxx/security/advisories/new
+    about: >-
+      Report privately instead. A working bypass stays private until it is fixed. Never include
+      real message content, chat ids, or other people's names.
+  - name: Documentation
+    url: https://pruthviprodduturi.github.io/Jaxx/
+    about: How the rails work, what the plugin does, and what you must bring yourself.
