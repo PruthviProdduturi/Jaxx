@@ -1,0 +1,60 @@
+name: Gap in the rails
+description: A situation the seven rails do not cover, or cover ambiguously.
+title: "rails: "
+labels: ["rails"]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        For design gaps, not working bypasses. If you have a sequence that gets an agent to act
+        outside its mandate against a live deployment, report it privately instead — see the link
+        on the new-issue page.
+
+  - type: dropdown
+    id: rail
+    attributes:
+      label: Closest existing rail
+      options:
+        - 1 - Fixed identity
+        - 2 - Sole owner
+        - 3 - Entry gate
+        - 4 - Disclosure
+        - 5 - Withdrawal
+        - 6 - Containment
+        - 7 - Other agents
+        - None of them
+    validations:
+      required: true
+
+  - type: textarea
+    id: situation
+    attributes:
+      label: The situation
+      description: What happens, and who says what to whom.
+      placeholder: >-
+        Someone is added to a gated room after the agent joined it, and asks the agent a question
+        the room previously agreed it may answer.
+    validations:
+      required: true
+
+  - type: textarea
+    id: ambiguous
+    attributes:
+      label: What the rails currently imply
+      description: Quote the wording that is unclear, and both readings you can defend.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What it should do instead
+      description: Optional. A rule is more useful than a preference — say what an agent must do.
+
+  - type: checkboxes
+    id: hygiene
+    attributes:
+      label: Before you post
+      options:
+        - label: No real chat ids, tenant ids, message content, or other people's names.
+          required: true
