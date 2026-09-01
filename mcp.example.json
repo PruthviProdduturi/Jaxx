@@ -1,0 +1,10 @@
+{
+  "$comment": "Jaxx needs reach, not just rules. This declares the ONE dependency that can be shipped publicly. Replace <ADO_ORG> with your Azure DevOps organisation name. The Teams half needs a second server that cannot be declared here - see README, 'What you must bring yourself'.",
+  "mcpServers": {
+    "azure-devops": {
+      "type": "local",
+      "command": "npx",
+      "args": ["-y", "@azure-devops/mcp", "<ADO_ORG>"]
+    }
+  }
+}

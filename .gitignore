@@ -1,0 +1,15 @@
+# Local, per-deployment configuration. Holds directory identifiers — never commit it.
+agent.config.json
+
+# Memory files are bootstrapped from assets/ into the user's own repo.
+ACTIVE.md
+BACKLOG.md
+ARCHIVE.md
+sessions.md
+!assets/ACTIVE.md
+!assets/BACKLOG.md
+!assets/ARCHIVE.md
+!assets/sessions.md
+
+.DS_Store
+Thumbs.db

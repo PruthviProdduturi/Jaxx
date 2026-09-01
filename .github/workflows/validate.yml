@@ -1,0 +1,37 @@
+name: validate
+
+# No `paths:` filter on purpose. If this workflow is promoted into a marketplace it
+# is auto-scoped to the owning plugin folder; an explicit glob that does not resolve
+# to that folder is rejected by the promoted-workflow check.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Promoted workflows may not request more than contents: read.
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # In this repo the plugin is the root. When vendored into a marketplace the
+      # plugin lives one level down, so this gains a
+      # `defaults.run.working-directory` pointing at that folder. Every path below
+      # is relative to the plugin root either way.
+      - name: Manifest and template are valid JSON
+        run: |
+          python -c "import json; json.load(open('plugin.json')); print('plugin.json OK')"
+          python -c "import json; json.load(open('agent.config.template.json')); print('agent.config.template.json OK')"
+
+      - name: Manifest matches the Agent Plugins schema
+        run: python scripts/check_manifest.py
+
+      - name: No real identifiers in the tree
+        run: python scripts/check_identifiers.py
+
+      - name: Skills are non-empty and titled
+        run: python scripts/check_skills.py
