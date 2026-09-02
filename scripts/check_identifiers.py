@@ -9,6 +9,11 @@ import pathlib
 import re
 import sys
 
+# Findings quote the offending line, which may hold non-cp1252 characters. On a
+# default Windows console that turns a useful report into a UnicodeEncodeError.
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 PATTERNS = {
     "Teams chat id": re.compile(r"19:[0-9a-zA-Z_\-]{10,}@"),
     "Teams meeting id": re.compile(r"19:meeting_"),
