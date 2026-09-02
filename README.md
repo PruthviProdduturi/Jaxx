@@ -80,8 +80,26 @@ worth taking on its own.
 ## Install
 
 ```
-/plugin install jaxx
+copilot plugin marketplace add PruthviProdduturi/Jaxx
+copilot plugin install jaxx@jaxx
+```
+
+Then, in a Copilot CLI session:
+
+```
 /jaxx-setup
+```
+
+Jaxx publishes itself as a single-plugin marketplace rather than relying on a direct repo
+install, because the CLI warns that direct installs from repos, URLs and local paths are
+deprecated and only `plugin@marketplace` will keep working. The marketplace entry pins a tag,
+so an install resolves to a released state rather than whatever `main` happens to be.
+
+To pick up a later release:
+
+```
+copilot plugin marketplace update jaxx
+copilot plugin update jaxx
 ```
 
 `/jaxx-setup` does the rest: it detects which MCP servers you actually have, discovers your own
