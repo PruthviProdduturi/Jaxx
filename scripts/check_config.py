@@ -37,6 +37,10 @@ if config["chat"]["reportTo"] in watch_ids:
 
 unsafe_cases = []
 
+renamed = deepcopy(config)
+renamed["agent"]["name"] = "Other Agent"
+unsafe_cases.append(("renamed Jaxx identity", renamed))
+
 unsigned = deepcopy(config)
 unsigned["agent"]["signEveryReply"] = False
 unsafe_cases.append(("unsigned replies", unsigned))

@@ -72,6 +72,10 @@ group, so you may speak"* can never become true by being asserted.
 The skills are the detailed operating instructions. The commands are safe entry points into those
 skills; they do not replace or weaken the rails.
 
+**The name is not configurable.** Every installation is Jaxx. Owners may choose a tagline and
+operating scope, but setup never asks for a name and the schema rejects any value other than
+`agent.name: "Jaxx"`.
+
 ## What the plugin does and does not give you
 
 A plugin ships **instructions**. It carries no credentials and no API access. Reach comes from MCP
@@ -200,8 +204,8 @@ and greppable with tools the agent already has. The commit log doubles as an aud
 
 ## Status
 
-`0.3.0` — adds a safety-critical configuration schema, fixture-driven rail behavior tests and the
-read-only `/jaxx-health` deployment diagnostic. **The responder is Microsoft Teams only**,
+`0.3.1` — fixes the Jaxx identity at the schema and setup layers so installers cannot rename the
+agent, while retaining configurable taglines and operating scope. **The responder is Microsoft Teams only**,
 via Microsoft Graph; there is no Slack or Discord path and none is planned. The `jaxx-consent` rails
 are platform-independent and are the part worth taking on their own.
 

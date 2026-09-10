@@ -38,14 +38,16 @@ If there is no Graph reach, ask for display name and UPN only, and leave `owner.
 `<OWNER_DIRECTORY_OBJECT_ID>` with a clear note that **sender-id authority cannot be enforced until
 it is filled in**. That is a real safety gap, not a cosmetic one — say so.
 
-## Step 3 — ask the few things that cannot be detected
+## Step 3 — keep the identity fixed, then ask what cannot be detected
 
-One form, four questions, sensible defaults:
+The agent name is **Jaxx**. Do not ask for a name and do not offer aliases or per-deployment
+renaming. `agent.name` remains `Jaxx` and `configAuthority.nameLocked` remains `true`.
+
+One form, three questions, sensible defaults:
 
 | Field | Default | Note |
 | --- | --- | --- |
-| Agent name | `Jaxx` | **Chosen once, then locked** (`configAuthority.nameLocked`). Say this at the point of asking, not afterwards. |
-| Tagline | `<Name>'s AI Assistant` | Per-chat overrides come later |
+| Tagline | `Your AI Assistant` | Per-chat presentation may vary; the name Jaxx never does |
 | ADO org / project | detected from `git remote` if it's an ADO remote | skip entirely if no ADO reach |
 | Tracker area path | blank | optional |
 

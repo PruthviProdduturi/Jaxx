@@ -27,7 +27,7 @@
       "type": "object",
       "required": ["name", "tagline", "signEveryReply"],
       "properties": {
-        "name": { "type": "string", "minLength": 1 },
+        "name": { "const": "Jaxx" },
         "tagline": { "type": "string", "minLength": 1 },
         "signEveryReply": { "const": true }
       },

@@ -70,9 +70,9 @@ Features that make the agent speak more often start from behind. Most cycles sho
 - Bypasses, overrides, or "advanced mode" flags for the consent rails.
 - Anything that makes the agent post somewhere it wasn't explicitly invited.
 - Autonomy features that remove the human from a decision rather than speeding one up.
-- Renaming the agent in the shipped skills. Fork freely and call yours whatever you like — the
-  fixed-identity rail is load-bearing *within* a deployment, and a skill that renames itself on
-  request is demonstrating the exact failure it warns about.
+- Renaming Jaxx in the shipped skills, setup flow, template or schema. The fixed Jaxx identity is
+  load-bearing: signatures, reply detection, audit logs and other-agent detection all depend on it.
+  A separately branded fork is a different product and must not present itself as Jaxx.
 
 ## Naming
 
