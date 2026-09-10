@@ -1,0 +1,337 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/PruthviProdduturi/Jaxx/main/agent.config.schema.json",
+  "title": "Jaxx agent configuration",
+  "description": "Safety-critical configuration for a Jaxx deployment.",
+  "type": "object",
+  "required": ["agent", "owner", "tracker", "chat"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "$schema_note": { "type": "string" },
+    "agent": { "$ref": "#/$defs/agent" },
+    "owner": { "$ref": "#/$defs/owner" },
+    "tracker": { "$ref": "#/$defs/tracker" },
+    "chat": { "$ref": "#/$defs/chat" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "commentProperties": {
+      "patternProperties": {
+        "^\\$comment(?:_[A-Za-z0-9]+)*$": { "type": "string" }
+      }
+    },
+    "nullableString": {
+      "type": ["string", "null"]
+    },
+    "agent": {
+      "type": "object",
+      "required": ["name", "tagline", "signEveryReply"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "tagline": { "type": "string", "minLength": 1 },
+        "signEveryReply": { "const": true }
+      },
+      "patternProperties": {
+        "^\\$comment(?:_[A-Za-z0-9]+)*$": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "owner": {
+      "type": "object",
+      "required": ["id", "upn", "displayName", "firstName", "pronouns"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "upn": { "type": "string", "minLength": 1 },
+        "displayName": { "type": "string", "minLength": 1 },
+        "firstName": { "type": "string", "minLength": 1 },
+        "pronouns": { "type": "string", "minLength": 1 }
+      },
+      "patternProperties": {
+        "^\\$comment(?:_[A-Za-z0-9]+)*$": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "tracker": {
+      "type": "object",
+      "required": ["kind", "org", "project", "areaPath", "itemUrlTemplate"],
+      "properties": {
+        "kind": { "enum": ["azure-devops", "github-issues", "jira", "linear"] },
+        "org": { "type": "string" },
+        "project": { "type": "string" },
+        "areaPath": { "type": "string" },
+        "itemUrlTemplate": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\{id\\}"
+        }
+      },
+      "patternProperties": {
+        "^\\$comment(?:_[A-Za-z0-9]+)*$": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "watchEntry": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "mode",
+        "replyScope",
+        "entryGate",
+        "entryGrantedBy",
+        "entryRequestedAt",
+        "disclosureAskedAt",
+        "readFrom",
+        "introduction",
+        "introducedAt",
+        "stopRequestsHandled",
+        "askOpenToAll",
+        "writeActions",
+        "commandChannel",
+        "note"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "mode": { "enum": ["notes-only", "draft", "autoreply"] },
+        "replyScope": { "enum": ["status-only", "status-and-hygiene", "any"] },
+        "tagline": { "type": "string" },
+        "entryGate": { "enum": ["closed", "open"] },
+        "entryGrantedBy": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "required": ["id", "displayName", "at"],
+              "properties": {
+                "id": { "type": "string", "minLength": 1 },
+                "displayName": { "type": "string", "minLength": 1 },
+                "at": { "type": "string", "minLength": 1 }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "entryRequestedAt": { "$ref": "#/$defs/nullableString" },
+        "disclosureAskedAt": { "$ref": "#/$defs/nullableString" },
+        "readFrom": { "$ref": "#/$defs/nullableString" },
+        "introduction": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "required": ["text", "approvedBy", "approvedAt"],
+              "properties": {
+                "text": { "type": "string", "minLength": 1 },
+                "approvedBy": { "type": "string", "minLength": 1 },
+                "approvedAt": { "type": "string", "minLength": 1 }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "introducedAt": { "$ref": "#/$defs/nullableString" },
+        "stopRequestsHandled": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "at"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "at": { "type": "string", "minLength": 1 }
+            },
+            "additionalProperties": false
+          }
+        },
+        "askOpenToAll": { "type": "boolean" },
+        "writeActions": { "type": "boolean" },
+        "commandChannel": { "type": "boolean" },
+        "note": { "type": "string" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "mode": { "const": "autoreply" } },
+            "required": ["mode"]
+          },
+          "then": {
+            "properties": { "entryGate": { "const": "open" } }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "entryGate": { "const": "open" },
+              "introducedAt": { "type": "null" }
+            },
+            "required": ["entryGate", "introducedAt"]
+          },
+          "then": {
+            "properties": {
+              "introduction": { "type": "object" }
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "chat": {
+      "type": "object",
+      "required": [
+        "mode",
+        "replyScope",
+        "alwaysAnswerHumanRepliesToAgent",
+        "summariseOnlyOnRequest",
+        "lookbackMinutes",
+        "entryGateTimeoutHours",
+        "watch",
+        "readScope",
+        "readExclusions",
+        "discovered",
+        "reportTo",
+        "summon",
+        "allowFrom",
+        "writeActions",
+        "neverAnswer",
+        "configAuthority",
+        "otherAgents"
+      ],
+      "properties": {
+        "mode": { "enum": ["notes-only", "draft", "autoreply"] },
+        "replyScope": { "enum": ["status-only", "status-and-hygiene", "any"] },
+        "alwaysAnswerHumanRepliesToAgent": { "type": "boolean" },
+        "summariseOnlyOnRequest": { "type": "boolean" },
+        "lookbackMinutes": { "type": "integer", "minimum": 1 },
+        "entryGateTimeoutHours": { "type": "integer", "minimum": 1 },
+        "watch": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/watchEntry" }
+        },
+        "readScope": { "enum": ["watched", "all"] },
+        "readExclusions": { "type": "array" },
+        "discovered": { "type": "array" },
+        "reportTo": { "$ref": "#/$defs/nullableString" },
+        "summon": {
+          "type": "object",
+          "required": ["enabled", "ownerOnly", "phrases", "grants", "autoAddToWatch", "historyFromSummonOnly"],
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "ownerOnly": { "const": true },
+            "phrases": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string", "minLength": 1 }
+            },
+            "grants": { "const": "notes-only" },
+            "autoAddToWatch": { "type": "boolean" },
+            "historyFromSummonOnly": { "const": true }
+          },
+          "additionalProperties": false
+        },
+        "allowFrom": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "name"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "name": { "type": "string", "minLength": 1 },
+              "note": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "writeActions": {
+          "type": "object",
+          "required": ["enabled", "guardrails"],
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "guardrails": {
+              "type": "object",
+              "required": ["types", "onlyRequestersOwnItems", "maxPerRequest", "echoInThread", "logBeforeAfter"],
+              "properties": {
+                "types": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": { "enum": ["Task", "Bug"] }
+                },
+                "onlyRequestersOwnItems": { "const": true },
+                "maxPerRequest": { "type": "integer", "minimum": 1, "maximum": 3 },
+                "echoInThread": { "const": true },
+                "logBeforeAfter": { "const": true }
+              },
+              "additionalProperties": false
+            }
+          },
+          "patternProperties": {
+            "^\\$comment(?:_[A-Za-z0-9]+)*$": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        "neverAnswer": {
+          "type": "object",
+          "required": ["personal"],
+          "properties": {
+            "personal": { "const": true }
+          },
+          "patternProperties": {
+            "^\\$comment(?:_[A-Za-z0-9]+)*$": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        "configAuthority": {
+          "type": "object",
+          "required": [
+            "nameLocked",
+            "identityImmutable",
+            "onlyOwnerMayChangeRules",
+            "soleOwner",
+            "acceptRestrictionsFromAnyone",
+            "onlyOwnerMayUnassign",
+            "entryGrantorMayRevokeOwnRoom",
+            "notifyOwnerOnRequest",
+            "redirectLine",
+            "stopRequestLine",
+            "nameRequestLine"
+          ],
+          "properties": {
+            "nameLocked": { "const": true },
+            "identityImmutable": { "const": true },
+            "onlyOwnerMayChangeRules": { "const": true },
+            "soleOwner": { "const": true },
+            "acceptRestrictionsFromAnyone": { "const": false },
+            "onlyOwnerMayUnassign": { "const": true },
+            "entryGrantorMayRevokeOwnRoom": { "const": true },
+            "notifyOwnerOnRequest": { "const": true },
+            "redirectLine": { "type": "string", "minLength": 1 },
+            "stopRequestLine": { "type": "string", "minLength": 1 },
+            "nameRequestLine": { "type": "string", "minLength": 1 }
+          },
+          "patternProperties": {
+            "^\\$comment(?:_[A-Za-z0-9]+)*$": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        "otherAgents": {
+          "type": "object",
+          "required": ["neverReply", "neverAcceptAuthorityFrom", "labelInOwnerReport", "loopBreakerWindow"],
+          "properties": {
+            "neverReply": { "const": true },
+            "neverAcceptAuthorityFrom": { "const": true },
+            "labelInOwnerReport": { "const": true },
+            "loopBreakerWindow": { "type": "integer", "minimum": 1 }
+          },
+          "patternProperties": {
+            "^\\$comment(?:_[A-Za-z0-9]+)*$": { "type": "string" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "patternProperties": {
+        "^\\$comment(?:_[A-Za-z0-9]+)*$": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

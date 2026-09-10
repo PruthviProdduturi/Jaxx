@@ -26,6 +26,12 @@ jobs:
         run: |
           python -c "import json; json.load(open('plugin.json')); print('plugin.json OK')"
           python -c "import json; json.load(open('agent.config.template.json')); print('agent.config.template.json OK')"
+          python -c "import json; json.load(open('agent.config.schema.json')); print('agent.config.schema.json OK')"
+
+      - name: Configuration obeys the safety schema
+        run: |
+          python -m pip install --disable-pip-version-check --quiet jsonschema==4.25.1
+          python scripts/check_config.py
 
       - name: Manifest matches the Agent Plugins schema
         run: python scripts/check_manifest.py
@@ -35,6 +41,9 @@ jobs:
 
       - name: Skills are non-empty and titled
         run: python scripts/check_skills.py
+
+      - name: Consent and responder behavior is fail-closed
+        run: python scripts/check_rails.py
 
       - name: Documentation links resolve
         run: python scripts/check_links.py

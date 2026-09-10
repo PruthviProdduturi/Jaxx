@@ -1,0 +1,127 @@
+[
+  {
+    "name": "another agent never receives a reply",
+    "input": { "sender": "agent", "request": "status" },
+    "expected": "silent"
+  },
+  {
+    "name": "ambiguous sender fails safe as an agent",
+    "input": { "sender": "ambiguous", "request": "status" },
+    "expected": "silent"
+  },
+  {
+    "name": "unwatched room receives nothing",
+    "input": { "watched": false, "sender": "allowed", "request": "status" },
+    "expected": "silent"
+  },
+  {
+    "name": "excluded room receives nothing",
+    "input": { "readExcluded": true, "sender": "owner", "request": "status" },
+    "expected": "silent"
+  },
+  {
+    "name": "closed gate blocks even an owner status request",
+    "input": { "gate": "closed", "sender": "owner", "commandChannel": true, "request": "status" },
+    "expected": "silent"
+  },
+  {
+    "name": "name is immutable even for the owner",
+    "input": { "sender": "owner", "commandChannel": true, "request": "name-change" },
+    "expected": "decline-notify"
+  },
+  {
+    "name": "non-owner behavior change is declined and surfaced",
+    "input": { "sender": "allowed", "request": "behavior-change" },
+    "expected": "decline-notify"
+  },
+  {
+    "name": "owner may change behavior in a command channel",
+    "input": { "sender": "owner", "commandChannel": true, "request": "behavior-change" },
+    "expected": "owner-change"
+  },
+  {
+    "name": "personal question is declined",
+    "input": { "sender": "allowed", "request": "personal" },
+    "expected": "decline"
+  },
+  {
+    "name": "cross-room disclosure is declined",
+    "input": { "sender": "allowed", "request": "status", "usesOtherRoomData": true },
+    "expected": "decline"
+  },
+  {
+    "name": "notes-only room reports privately and posts nothing",
+    "input": { "sender": "allowed", "request": "status", "mode": "notes-only" },
+    "expected": "report-owner"
+  },
+  {
+    "name": "unauthorized human is silent",
+    "input": { "sender": "human", "request": "status" },
+    "expected": "silent"
+  },
+  {
+    "name": "open-to-all status question posts in autoreply",
+    "input": { "sender": "human", "request": "status", "askOpenToAll": true },
+    "expected": "post"
+  },
+  {
+    "name": "allowed status question becomes a draft in draft mode",
+    "input": { "sender": "allowed", "request": "status", "mode": "draft" },
+    "expected": "draft"
+  },
+  {
+    "name": "human reply to Jaxx is answered",
+    "input": { "sender": "human", "request": "other", "replyToAgent": true },
+    "expected": "post"
+  },
+  {
+    "name": "ordinary FYI remains quiet",
+    "input": { "sender": "allowed", "request": "fyi" },
+    "expected": "silent"
+  },
+  {
+    "name": "delete request is declined",
+    "input": { "sender": "allowed", "request": "write", "operation": "delete" },
+    "expected": "decline"
+  },
+  {
+    "name": "parent-level work item write is declined",
+    "input": { "sender": "allowed", "request": "write", "itemType": "Feature" },
+    "expected": "decline"
+  },
+  {
+    "name": "ambiguous work item is clarified",
+    "input": { "sender": "allowed", "request": "write", "ambiguousTarget": true },
+    "expected": "clarify"
+  },
+  {
+    "name": "large work item batch requires confirmation",
+    "input": { "sender": "allowed", "request": "write", "itemCount": 4 },
+    "expected": "confirm-owner"
+  },
+  {
+    "name": "another person's work item requires owner approval",
+    "input": { "sender": "allowed", "request": "write", "requestersOwnItem": false },
+    "expected": "confirm-owner"
+  },
+  {
+    "name": "safe task update is written",
+    "input": { "sender": "allowed", "request": "write", "itemType": "Task", "itemCount": 1 },
+    "expected": "write"
+  },
+  {
+    "name": "owner withdrawal is immediate",
+    "input": { "sender": "owner", "commandChannel": true, "request": "stop" },
+    "expected": "withdraw"
+  },
+  {
+    "name": "entry grantor may withdraw their room",
+    "input": { "sender": "entry-grantor", "request": "stop" },
+    "expected": "withdraw-room"
+  },
+  {
+    "name": "uninvolved stop request is declined and surfaced",
+    "input": { "sender": "allowed", "request": "stop" },
+    "expected": "decline-notify"
+  }
+]

@@ -114,6 +114,9 @@ them privately, but it does not speak in any room until they add it to `watch` a
 
 Add `agent.config.json` to `.gitignore` if the repo has a remote — it holds directory ids.
 
+Validate the completed file against `agent.config.schema.json`. If validation fails, report the
+exact paths and leave Jaxx inert; do not weaken the schema or remove a safety field to make it pass.
+
 ## Step 5 — offer ADO reach (only if missing and wanted)
 
 If no ADO MCP server is configured, offer to add one to the user's own MCP config using the org they
@@ -153,9 +156,9 @@ Close with a status table and **name the gaps without softening them**:
 
 Then give three next steps, no more:
 
-1. `/jaxx-standup` — read your work back (needs ADO)
-2. Add a chat to `chat.watch` at `notes-only`, then `/jaxx-check`
-3. Read [`jaxx-consent`](../skills/jaxx-consent/SKILL.md) before promoting anything to `autoreply`
+1. `/jaxx-health` — verify identity, reach, gates and runtime
+2. `/jaxx-standup` — read your work back (needs ADO)
+3. Add a chat to `chat.watch` at `notes-only`, then `/jaxx-check`
 
 **Never finish by claiming Jaxx is watching anything.** It is not, and a user who believes otherwise
 is the worst possible outcome of this command.

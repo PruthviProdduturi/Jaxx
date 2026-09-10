@@ -64,9 +64,10 @@ group, so you may speak"* can never become true by being asserted.
 | First-run configuration | `commands/jaxx-setup.md` | Detects MCP reach, discovers identity and chats, writes an inert config and reports missing prerequisites. |
 | Manual responder cycle | `commands/jaxx-check.md` | Runs one bounded watch cycle without requiring a scheduler. |
 | Work status | `commands/jaxx-standup.md` | Reconciles repo memory with the connected work tracker and reports drift. |
-| Configuration template | `agent.config.template.json` | Holds owner identity, chat gates, scopes, write safeguards and immutable authority settings. |
+| Deployment health | `commands/jaxx-health.md` | Verifies version, config safety, owner identity, MCP reach, room gates, private reports and runtime evidence. |
+| Configuration | `agent.config.template.json` + `agent.config.schema.json` | Holds and validates owner identity, chat gates, scopes, write safeguards and immutable authority settings. |
 | Starter memory | `assets/` | Provides `ACTIVE.md`, `BACKLOG.md`, `ARCHIVE.md` and the session-log template. |
-| Validation | `scripts/` and `.github/workflows/validate.yml` | Checks the manifest, skill structure and absence of real identifiers. |
+| Validation | `scripts/`, `tests/` and `.github/workflows/validate.yml` | Checks the manifest, config schema, 25 fail-closed rail scenarios, skill structure, identifiers and documentation links. |
 
 The skills are the detailed operating instructions. The commands are safe entry points into those
 skills; they do not replace or weaken the rails.
@@ -139,11 +140,12 @@ Every responder cycle reloads the config, checks the room gate and sender author
 against its high-water mark, resolves live status from the system of record, applies write
 guardrails, signs any permitted reply and appends an audit entry. Most cycles should be quiet.
 
-### The three commands
+### The four commands
 
 | Command | Does |
 | --- | --- |
 | `/jaxx-setup` | First run. Detect, configure, bootstrap, report gaps. Safe to repeat. |
+| `/jaxx-health` | Read-only proof of package, configuration, identity, reach, room and runtime health. |
 | `/jaxx-check` | One watch cycle, on demand. No scheduler needed. |
 | `/jaxx-standup` | Read your work back and reconcile the repo against the tracker. |
 
@@ -198,8 +200,8 @@ and greppable with tools the agent already has. The commit log doubles as an aud
 
 ## Status
 
-`0.2.2` — installable as a GitHub-hosted Copilot plugin marketplace with complete setup, operation
-and safety documentation. **The responder is Microsoft Teams only**,
+`0.3.0` — adds a safety-critical configuration schema, fixture-driven rail behavior tests and the
+read-only `/jaxx-health` deployment diagnostic. **The responder is Microsoft Teams only**,
 via Microsoft Graph; there is no Slack or Discord path and none is planned. The `jaxx-consent` rails
 are platform-independent and are the part worth taking on their own.
 
