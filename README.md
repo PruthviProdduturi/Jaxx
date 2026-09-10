@@ -198,7 +198,7 @@ and greppable with tools the agent already has. The commit log doubles as an aud
 
 ## Status
 
-`0.2.1` — installable as a GitHub-hosted Copilot plugin marketplace with complete setup, operation
+`0.2.2` — installable as a GitHub-hosted Copilot plugin marketplace with complete setup, operation
 and safety documentation. **The responder is Microsoft Teams only**,
 via Microsoft Graph; there is no Slack or Discord path and none is planned. The `jaxx-consent` rails
 are platform-independent and are the part worth taking on their own.

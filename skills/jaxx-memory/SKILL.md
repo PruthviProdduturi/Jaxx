@@ -29,8 +29,8 @@ Keep files short and skimmable. Tables over prose. Dates as `YYYY-MM-DD`. Every 
 reference is a real link, not a bare number — a number that outlives its context is useless.
 
 **Files missing?** Create them from the starter files bundled with this skill:
-[`ACTIVE.md`](./assets/ACTIVE.md), [`BACKLOG.md`](./assets/BACKLOG.md),
-[`ARCHIVE.md`](./assets/ARCHIVE.md), [`sessions.md`](./assets/sessions.md) — reviewed and pinned
+[`ACTIVE.md`](../../assets/ACTIVE.md), [`BACKLOG.md`](../../assets/BACKLOG.md),
+[`ARCHIVE.md`](../../assets/ARCHIVE.md), [`sessions.md`](../../assets/sessions.md) — reviewed and pinned
 alongside these instructions, so what gets copied is never newer than what was read.
 Never overwrite a file that already has content, and never
 silently work around a missing one: a run log you didn't write is a session that, as far as the next

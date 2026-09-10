@@ -35,3 +35,6 @@ jobs:
 
       - name: Skills are non-empty and titled
         run: python scripts/check_skills.py
+
+      - name: Documentation links resolve
+        run: python scripts/check_links.py

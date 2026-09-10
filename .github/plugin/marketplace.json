@@ -12,7 +12,7 @@
     {
       "name": "jaxx",
       "description": "Give an agent a mandate it can't overstep. Consent and authority rails for agents that act in a human's name, a chat responder that obeys them, and a repo-as-memory pattern that survives context compaction.",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "license": "MIT",
       "homepage": "https://github.com/PruthviProdduturi/Jaxx",
       "repository": "https://github.com/PruthviProdduturi/Jaxx",
@@ -39,7 +39,7 @@
       "source": {
         "source": "github",
         "repo": "PruthviProdduturi/Jaxx",
-        "ref": "v0.2.1"
+        "ref": "v0.2.2"
       }
     }
   ]
