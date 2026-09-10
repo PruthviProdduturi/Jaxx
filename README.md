@@ -54,6 +54,23 @@ group, so you may speak"* can never become true by being asserted.
 | [`jaxx-responder`](skills/jaxx-responder/SKILL.md) | A **Microsoft Teams** watch that obeys them — scope ladder, reply detection, guarded write-backs, dedupe, edit-in-place, draft→autoreply promotion. |
 | [`jaxx-memory`](skills/jaxx-memory/SKILL.md) | Repo-as-memory so the agent survives context compaction: `ACTIVE`/`BACKLOG`/`ARCHIVE`, append-only run log, session hygiene. |
 
+### Everything installed by the plugin
+
+| Component | Installed files | Purpose |
+| --- | --- | --- |
+| Authority and consent | `skills/jaxx-consent/SKILL.md` | Defines who may change the agent, how room consent works, disclosure, withdrawal and containment. |
+| Teams responder | `skills/jaxx-responder/SKILL.md` | Defines the complete gate → classify → gather → draft → post → log cycle. |
+| Durable memory | `skills/jaxx-memory/SKILL.md` | Defines tracker reconciliation, session hygiene, append-only history and safe git persistence. |
+| First-run configuration | `commands/jaxx-setup.md` | Detects MCP reach, discovers identity and chats, writes an inert config and reports missing prerequisites. |
+| Manual responder cycle | `commands/jaxx-check.md` | Runs one bounded watch cycle without requiring a scheduler. |
+| Work status | `commands/jaxx-standup.md` | Reconciles repo memory with the connected work tracker and reports drift. |
+| Configuration template | `agent.config.template.json` | Holds owner identity, chat gates, scopes, write safeguards and immutable authority settings. |
+| Starter memory | `assets/` | Provides `ACTIVE.md`, `BACKLOG.md`, `ARCHIVE.md` and the session-log template. |
+| Validation | `scripts/` and `.github/workflows/validate.yml` | Checks the manifest, skill structure and absence of real identifiers. |
+
+The skills are the detailed operating instructions. The commands are safe entry points into those
+skills; they do not replace or weaken the rails.
+
 ## What the plugin does and does not give you
 
 A plugin ships **instructions**. It carries no credentials and no API access. Reach comes from MCP
@@ -107,6 +124,20 @@ identity rather than asking you for a GUID, writes `agent.config.json` from the 
 bootstraps the memory files, and then **tells you plainly what is still missing**.
 
 It is idempotent — re-run it any time.
+
+### How a complete deployment runs
+
+1. Install the plugin and run `/jaxx-setup`.
+2. Connect an ADO MCP server if tracker reads or writes are required.
+3. Connect a delegated Teams/Graph MCP server if chat reads or posts are required.
+4. Add rooms deliberately. New rooms start unable to post.
+5. Run `/jaxx-check` manually and review draft behavior before enabling autoreply.
+6. If unattended operation is required, schedule that same bounded check externally.
+7. Keep the generated config private and persist only sanitized tracker memory.
+
+Every responder cycle reloads the config, checks the room gate and sender authority, deduplicates
+against its high-water mark, resolves live status from the system of record, applies write
+guardrails, signs any permitted reply and appends an audit entry. Most cycles should be quiet.
 
 ### The three commands
 
@@ -167,7 +198,8 @@ and greppable with tools the agent already has. The commit log doubles as an aud
 
 ## Status
 
-`0.1.0` — extracted from a working private deployment. **The responder is Microsoft Teams only**,
+`0.2.1` — installable as a GitHub-hosted Copilot plugin marketplace with complete setup, operation
+and safety documentation. **The responder is Microsoft Teams only**,
 via Microsoft Graph; there is no Slack or Discord path and none is planned. The `jaxx-consent` rails
 are platform-independent and are the part worth taking on their own.
 

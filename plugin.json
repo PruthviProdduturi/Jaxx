@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "jaxx",
   "description": "Give an agent a mandate it can't overstep. Consent and authority rails for agents that act in a human's name, a chat responder that obeys them, and a repo-as-memory pattern that survives context compaction.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": {
     "name": "Pruthvi Prodduturi"
   },
