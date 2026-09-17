@@ -109,8 +109,11 @@ copilot plugin install jaxx@jaxx
 Then, in a Copilot CLI session:
 
 ```
-/jaxx-setup
+/jaxx
 ```
+
+That is the front door — it tells you what Jaxx is, what it can currently reach, and the one next
+step. It reads state and changes nothing, so it is safe to run first and safe to re-run later.
 
 Jaxx publishes itself as a single-plugin marketplace rather than relying on a direct repo
 install, because the CLI warns that direct installs from repos, URLs and local paths are
@@ -144,10 +147,11 @@ Every responder cycle reloads the config, checks the room gate and sender author
 against its high-water mark, resolves live status from the system of record, applies write
 guardrails, signs any permitted reply and appends an audit entry. Most cycles should be quiet.
 
-### The four commands
+### The five commands
 
 | Command | Does |
 | --- | --- |
+| `/jaxx` | Start here. What it is, what it reaches, what's next. Read-only. |
 | `/jaxx-setup` | First run. Detect, configure, bootstrap, report gaps. Safe to repeat. |
 | `/jaxx-health` | Read-only proof of package, configuration, identity, reach, room and runtime health. |
 | `/jaxx-check` | One watch cycle, on demand. No scheduler needed. |
