@@ -21,8 +21,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GATE = os.path.join(ROOT, "hooks", "jaxx_gate.py")
 
 # Broad on purpose. A false positive costs one subprocess that returns allow;
-# a false negative is a post that skipped the gate entirely.
-MATCHER = r".*(chat|message|mail|post|send|teams|graph|slack|reply|comment).*"
+# a false negative is a post that skipped the gate entirely. `entity` is here
+# because WorkIQ posts through create_entity/update_entity on a chat url --
+# a tool name with none of the other words in it.
+MATCHER = r".*(chat|message|mail|post|send|teams|graph|slack|reply|comment|entity).*"
 
 
 def hooks_dir():

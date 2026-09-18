@@ -13,7 +13,7 @@ Read the installed `plugin.json` and report:
 
 - Jaxx plugin version
 - the three discovered skills
-- the four discovered commands
+- the five discovered commands
 - whether `agent.config.schema.json` is present
 
 If a component is missing, mark the package unhealthy. Do not infer that a file exists because the
@@ -44,7 +44,12 @@ Look for `agent.config.json` in the current repository.
 - Verify room ids are unique.
 - Verify every `autoreply` room has an open entry gate.
 - An open gate with no `introducedAt` is not healthy for normal replies: the approved introduction
-  must be the only next post.
+  must be the only next post. If `introduction` is also null, say so: entry was approved but the
+  wording is not stored, so the gate denies every post there until the owner stores it.
+- `chat.pause` and `chat.focusedMode` are optional owner-only containment switches. An active
+  pause is **Inert by decision**, not broken. An active focused mode is healthy only if every id in
+  `chatIds` is an open, non-excluded room in `chat.watch`; report the rooms outside it as
+  *configured, not read*.
 
 These safety constants are mandatory. A false or missing value is **critical**, not a warning:
 
@@ -90,6 +95,9 @@ Platform      autoreply   open    yes          status-and-hygiene   guarded
 Owner 1:1     draft       open    yes          any                  disabled
 ```
 
+When focused mode is active, add a `Read` column (`yes` / `no — focused mode`) so the table shows
+which rooms the responder actually touches this cycle.
+
 Use room names, not full ids, in normal output. Include ids only for a duplicate or missing-target
 diagnostic.
 
@@ -133,7 +141,7 @@ Then show a short table:
 
 ```
 Area           State       Detail
-Package        Healthy     v0.3.0; 3 skills; 4 commands
+Package        Healthy     v0.4.0; 3 skills; 5 commands
 Configuration  Healthy     schema valid; all authority rails fixed
 Entry gate     Healthy     installed; unopened rooms blocked
 Owner          Healthy     sender id verified

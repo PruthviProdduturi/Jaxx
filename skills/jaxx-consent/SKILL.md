@@ -546,6 +546,7 @@ with `python scripts/install_gate.py`. It sits under the tool call and **denies*
 
 | Condition | Rail |
 | --- | --- |
+| The room is in `chat.readExclusions` | 3 — a revoked room stays revoked until the owner says otherwise |
 | The room is not in `chat.watch` | 3 — every room starts closed |
 | `watch[].entryGate` is not `open` | 3 — only the owner opens a gate |
 | `watch[].mode` is not `autoreply` | `notes-only` and `draft` post nothing |
@@ -553,6 +554,13 @@ with `python scripts/install_gate.py`. It sits under the tool call and **denies*
 
 Denials carry their reason back to the agent, so a blocked post reads as a consent decision to be
 respected rather than a malfunction to be routed around.
+
+The hook decides what counts as a post from the tool **name** (`chat.enforcement.postToolPattern`,
+or a built-in default) and finds the room from the arguments — an explicit `chatId`-style key, or a
+Graph-style url such as `/me/chats/{id}/messages`, including inside a JSON-string body. A transport
+whose posting tool is named unusually (WorkIQ's `create_entity`, say) needs the pattern widened in
+config, or every real post walks past the gate unchecked. Err broad: a false positive costs one
+subprocess that answers allow.
 
 **What the hook cannot enforce, and why it does not pretend to.** Rail 2 (authority is the sender
 id), rail 6 (containment across rooms) and rail 7 (never answer another agent) all turn on what a

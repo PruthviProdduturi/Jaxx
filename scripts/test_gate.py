@@ -130,6 +130,42 @@ case("nested room id is still found", "deny",
      config(), SEND,
      {"params": {"conversationId": "19:never-seen"}, "content": "hello"})
 
+# --- WorkIQ shape: the room is in a url and the body is a JSON string ---------
+WORKIQ = "workiq-create_entity"
+
+
+def workiq_args(room_id, content):
+    return {"parentUrl": "/me/chats/%s/messages" % room_id,
+            "jsonBody": json.dumps({"body": {"contentType": "html", "content": content}})}
+
+
+case("workiq post to an unknown room is denied", "deny",
+     config(), WORKIQ, workiq_args("19:never-seen", "hello"))
+case("workiq post to an open room is allowed", "allow",
+     config(), WORKIQ, workiq_args("19:room-open", "hello"))
+case("workiq post to a closed room is denied", "deny",
+     config(room={"entryGate": "closed"}), WORKIQ, workiq_args("19:room-open", "hello"))
+case("workiq first post must be the introduction", "deny",
+     config(room={"introducedAt": None}), WORKIQ, workiq_args("19:room-open", "hello"))
+case("workiq verbatim introduction inside jsonBody is allowed", "allow",
+     config(room={"introducedAt": None}), WORKIQ,
+     workiq_args("19:room-open", "<p>" + OPEN_ROOM["introduction"] + "</p>"))
+case("workiq edit in place is gated like a post", "deny",
+     config(room={"entryGate": "closed"}), "workiq-update_entity",
+     {"entityUrl": "/me/chats/19:room-open/messages/1789", "jsonBody": "{\"body\":{\"content\":\"x\"}}"})
+case("workiq fetch is a read and passes", "allow",
+     config(room={"entryGate": "closed"}), "workiq-fetch",
+     {"entityUrls": ["/me/chats/19:room-open/messages"]})
+
+# --- introduction stored as the schema's { text, approvedBy, approvedAt } -----
+STRUCTURED = {"text": OPEN_ROOM["introduction"], "approvedBy": "owner", "approvedAt": "2026-09-01T09:00:00Z"}
+case("structured introduction, verbatim, is allowed", "allow",
+     config(room={"introducedAt": None, "introduction": STRUCTURED}), SEND,
+     {"chatId": "19:room-open", "content": OPEN_ROOM["introduction"]})
+case("structured introduction, other text, is denied", "deny",
+     config(room={"introducedAt": None, "introduction": STRUCTURED}), SEND,
+     {"chatId": "19:room-open", "content": "hello"})
+
 
 def main():
     failures = 0

@@ -44,8 +44,15 @@ BODY_KEYS = (
 )
 
 DEFAULT_POST_TOOL_PATTERN = (
-    r".*(send|post|reply|create).*(message|chat|mail|post|comment).*"
-    r"|.*(message|chat|mail).*(send|post|create|reply).*"
+    r".*(send|post|reply|create|update|patch).*(message|chat|mail|post|comment|entity).*"
+    r"|.*(message|chat|mail).*(send|post|create|reply|update|patch).*"
+)
+
+# Where a room id hides when the tool takes a Graph-style url instead of a
+# chatId argument: /me/chats/{id}/messages, /teams/{team}/channels/{id}/messages.
+ROOM_URL_PATTERNS = (
+    re.compile(r"/chats/([^/?#\s]+)", re.IGNORECASE),
+    re.compile(r"/channels/([^/?#\s]+)", re.IGNORECASE),
 )
 
 POSTABLE_MODE = "autoreply"
@@ -68,7 +75,12 @@ def deny(reason):
 
 
 def walk(obj):
-    """Yield every (lowercased key, value) pair anywhere in a nested payload."""
+    """Yield every (lowercased key, value) pair anywhere in a nested payload.
+
+    A string that is itself JSON (WorkIQ passes the message as `jsonBody`) is
+    descended into as well, so the body of the post is found wherever the
+    transport chose to put it.
+    """
     if isinstance(obj, dict):
         for key, value in obj.items():
             yield str(key).lower(), value
@@ -78,6 +90,32 @@ def walk(obj):
         for item in obj:
             for pair in walk(item):
                 yield pair
+    elif isinstance(obj, str) and obj.lstrip()[:1] in ("{", "["):
+        try:
+            parsed = json.loads(obj)
+        except ValueError:
+            return
+        for pair in walk(parsed):
+            yield pair
+
+
+def room_from_urls(payload):
+    """Pull a room id out of any url-shaped string in the payload."""
+    for _, value in walk(payload):
+        if not isinstance(value, str):
+            continue
+        for pattern in ROOM_URL_PATTERNS:
+            found = pattern.search(value)
+            if found:
+                return found.group(1)
+    return None
+
+
+def approved_text(introduction):
+    """The approved wording, whether stored bare or as { text, approvedBy, approvedAt }."""
+    if isinstance(introduction, dict):
+        return introduction.get("text")
+    return introduction
 
 
 def first_match(payload, keys):
@@ -141,7 +179,7 @@ def main():
             allow()
 
         # A posting-shaped tool carrying no room id is a read or a search.
-        room_id = first_match(tool_args, ROOM_ID_KEYS)
+        room_id = first_match(tool_args, ROOM_ID_KEYS) or room_from_urls(tool_args)
         if not room_id:
             allow()
     except SystemExit:
@@ -200,7 +238,7 @@ def main():
             )
 
         if not room.get("introducedAt"):
-            approved = room.get("introduction")
+            approved = approved_text(room.get("introduction"))
             if not approved:
                 deny(
                     "Entry to %s was approved but the introduction wording was "
