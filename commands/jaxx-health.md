@@ -12,7 +12,7 @@ Do not repair, promote, post, authenticate, install, schedule or edit anything d
 Read the installed `plugin.json` and report:
 
 - Jaxx plugin version
-- the three discovered skills
+- the four discovered skills
 - the five discovered commands
 - whether `agent.config.schema.json` is present
 
@@ -141,7 +141,7 @@ Then show a short table:
 
 ```
 Area           State       Detail
-Package        Healthy     v0.4.0; 3 skills; 5 commands
+Package        Healthy     v0.4.0; 4 skills; 5 commands
 Configuration  Healthy     schema valid; all authority rails fixed
 Entry gate     Healthy     installed; unopened rooms blocked
 Owner          Healthy     sender id verified

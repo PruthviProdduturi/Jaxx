@@ -61,6 +61,7 @@ group, so you may speak"* can never become true by being asserted.
 | Authority and consent | `skills/jaxx-consent/SKILL.md` | Defines who may change the agent, how room consent works, disclosure, withdrawal and containment. |
 | Teams responder | `skills/jaxx-responder/SKILL.md` | Defines the complete gate → classify → gather → draft → post → log cycle. |
 | Durable memory | `skills/jaxx-memory/SKILL.md` | Defines tracker reconciliation, session hygiene, append-only history and safe git persistence. |
+| Deployment health | `skills/jaxx-health/SKILL.md` + `commands/jaxx-health.md` | Exposes the same read-only health check in GitHub Copilot CLI and Claude Code. |
 | First-run configuration | `commands/jaxx-setup.md` | Detects MCP reach, discovers identity and chats, writes an inert config and reports missing prerequisites. |
 | Manual responder cycle | `commands/jaxx-check.md` | Runs one bounded watch cycle without requiring a scheduler. |
 | Work status | `commands/jaxx-standup.md` | Reconciles repo memory with the connected work tracker and reports drift. |
@@ -159,7 +160,7 @@ consent rails and workflows, not Microsoft 365 or Azure DevOps credentials.
 If you installed Jaxx in GitHub Copilot CLI, start a Copilot session and run:
 
 ```
-/jaxx-health
+/jaxx:jaxx-health
 ```
 
 If you installed Jaxx in Claude Code, start Claude Code and run:
@@ -197,7 +198,7 @@ guardrails, signs any permitted reply and appends an audit entry. Most cycles sh
 | --- | --- |
 | `/jaxx` | Start here. What it is, what it reaches, what's next. Read-only. |
 | `/jaxx-setup` | First run. Detect, configure, bootstrap, report gaps. Safe to repeat. |
-| `/jaxx-health` | Read-only proof of package, configuration, identity, reach, room and runtime health. |
+| `/jaxx:jaxx-health` | Read-only proof of package, configuration, identity, reach, room and runtime health. |
 | `/jaxx-check` | One watch cycle, on demand. No scheduler needed. |
 | `/jaxx-standup` | Read your work back and reconcile the repo against the tracker. |
 
