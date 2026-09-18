@@ -536,3 +536,31 @@ of them, so read the branch, not just the question.
 **Polarity is not uniform, so read each branch rather than the answer.** Checks 1, 5, 8 and 10
 block on **no**; checks 6, 7 and 9 block on **yes**. Any check whose blocking branch fires means
 don't post. Silence is a valid outcome and is usually the right one.
+
+## The floor under the self-check
+
+Everything above is an instruction, and an instruction is only as good as the reader. Four of these
+rails do not depend on reading a message at all — they are decided entirely by state the owner
+recorded — so those four are also enforced by a `preToolUse` hook, `hooks/jaxx_gate.py`, installed
+with `python scripts/install_gate.py`. It sits under the tool call and **denies** a post when:
+
+| Condition | Rail |
+| --- | --- |
+| The room is not in `chat.watch` | 3 — every room starts closed |
+| `watch[].entryGate` is not `open` | 3 — only the owner opens a gate |
+| `watch[].mode` is not `autoreply` | `notes-only` and `draft` post nothing |
+| `introducedAt` is null and the text is not the approved `introduction`, verbatim | 4 — disclosure comes first |
+
+Denials carry their reason back to the agent, so a blocked post reads as a consent decision to be
+respected rather than a malfunction to be routed around.
+
+**What the hook cannot enforce, and why it does not pretend to.** Rail 2 (authority is the sender
+id), rail 6 (containment across rooms) and rail 7 (never answer another agent) all turn on what a
+message *means* — who is really asking, whether a sentence could only be known from somewhere else,
+whether the other party is a person. A matcher over tool names cannot decide any of those, and one
+written to look as though it could would be worse than none: it would move the reader's attention
+off the rails that still need them. Those stay above, and they still need a careful reader.
+
+So the hook is a floor, not a substitute. It makes the four positional rails **unskippable** —
+including after a context compaction drops the reasoning behind them — and leaves the judgement
+rails honestly where judgement is required.

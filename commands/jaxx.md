@@ -56,13 +56,19 @@ Reading      all chats
 Posting in   nothing
 Reports to   your 1:1 with Jaxx
 Azure DevOps connected — contoso/Platform
+Entry gate   installed — posting tools are blocked outside open rooms
 ```
+
+Report the entry gate by checking whether `~/.copilot/hooks/jaxx-gate.json` exists. If it does not,
+say `not installed — the rails are advisory only`. Read the file; never install it here.
 
 Then **one** next step, chosen by what is actually missing:
 
 - `owner.id` still a placeholder → say plainly that sender-id authority is **not enforceable** until
   it is filled in, and that this is a real gap, not cosmetic. That outranks everything else.
 - No Graph reach → `jaxx-responder` is a specification, not a running thing. Say so.
+- A room at `autoreply` with no entry gate installed → offer `python scripts/install_gate.py`.
+  Posting is live and nothing but the agent's own care is stopping a misdirected message.
 - Otherwise → `/jaxx-check` to run a read-only cycle and see what it would have told you.
 
 ## Step 4 — Live: watching something

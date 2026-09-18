@@ -45,5 +45,8 @@ jobs:
       - name: Consent and responder behavior is fail-closed
         run: python scripts/check_rails.py
 
+      - name: Entry gate is wired and enforces the rails
+        run: python scripts/check_hooks.py
+
       - name: Documentation links resolve
         run: python scripts/check_links.py

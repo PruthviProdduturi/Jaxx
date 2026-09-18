@@ -143,6 +143,29 @@ ACTIVE.md  BACKLOG.md  ARCHIVE.md  streams/.gitkeep  reference/sessions.md
 
 Never overwrite an existing one. If `ACTIVE.md` already has content, leave it and say so.
 
+## Step 6b — offer the entry gate
+
+Ask whether to install it. Don't install without asking — nothing in Jaxx switches itself on.
+
+```
+python scripts/install_gate.py
+```
+
+Say what it is in one line: a `preToolUse` hook that **denies** any posting tool call into a room
+the config doesn't say is open — unknown room, gate not `open`, mode below `autoreply`, or an
+introduction still owed. It is the difference between the rails being instructions and being
+enforced, and it matters most later, when a long session has compacted and the reasoning behind
+them is gone.
+
+Two things to tell them plainly, and don't skip the second:
+
+- It installs to `~/.copilot/hooks/`, not with the plugin, because plugin-contributed hooks do not
+  fire on the current CLI. `--remove` uninstalls it. It needs Python 3 on `PATH`.
+- It cannot enforce authority-is-the-sender, containment, or never-answering-another-agent — those
+  turn on what a message means. Those remain the reader's job.
+
+If they decline, note it in the step 7 report as `⚠️` rather than dropping it silently.
+
 ## Step 7 — report, honestly
 
 Close with a status table and **name the gaps without softening them**:
@@ -151,6 +174,7 @@ Close with a status table and **name the gaps without softening them**:
 ✅ Config written        agent.config.json (inert: watching nothing)
 ✅ Memory bootstrapped   ACTIVE / BACKLOG / ARCHIVE
 ✅ Azure DevOps          connected, org <ORG>
+✅ Entry gate            installed — posts into unopened rooms are blocked
 ❌ Teams                 no Graph-capable MCP server
                          → jaxx-responder is a specification until you supply one
 ⚠️  Owner id             not set — sender-id authority is NOT enforceable yet

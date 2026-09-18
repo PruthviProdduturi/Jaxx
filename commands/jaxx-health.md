@@ -19,6 +19,19 @@ Read the installed `plugin.json` and report:
 If a component is missing, mark the package unhealthy. Do not infer that a file exists because the
 README mentions it.
 
+Also report the entry gate. It is installed per machine, not with the plugin, so check whether
+`~/.copilot/hooks/jaxx-gate.json` exists and points at a `hooks/jaxx_gate.py` that is present.
+
+| Gate state | Report as |
+| --- | --- |
+| Installed and target present | enforced — posts outside open rooms are blocked |
+| Installed, target missing or unreadable | **critical** — a `preToolUse` hook is fail-closed, so every matching tool call is denied with no usable reason |
+| Not installed | degraded — the rails are advisory only |
+
+Not installed is not a failure by itself; a `notes-only` deployment posts nowhere regardless. It is
+degraded only when some room is at `autoreply`, where nothing but the agent's own care stands
+between a misread message and a sent one. Say which of the two applies. Never install it here.
+
 ## 2. Configuration
 
 Look for `agent.config.json` in the current repository.
@@ -122,6 +135,7 @@ Then show a short table:
 Area           State       Detail
 Package        Healthy     v0.3.0; 3 skills; 4 commands
 Configuration  Healthy     schema valid; all authority rails fixed
+Entry gate     Healthy     installed; unopened rooms blocked
 Owner          Healthy     sender id verified
 Tracker        Degraded    no tracker MCP
 Teams          Healthy     delegated Graph read available

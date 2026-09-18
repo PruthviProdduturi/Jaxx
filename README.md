@@ -79,13 +79,15 @@ operating scope, but setup never asks for a name and the schema rejects any valu
 ## What the plugin does and does not give you
 
 A plugin ships **instructions**. It carries no credentials and no API access. Reach comes from MCP
-servers; behaviour comes from the skills. Both halves are required.
+servers; behaviour comes from the skills. Both halves are required. The one exception is the
+entry gate below, which is code and does block.
 
 | Capability | Comes from | Shipped here |
 | --- | --- | --- |
 | Create / update Azure DevOps work items | `@azure-devops/mcp` | ✅ see [`mcp.example.json`](mcp.example.json) — `/jaxx-setup` wires it up |
 | Read and post Microsoft Teams messages | a server holding delegated Graph `Chat.Read` / `Chat.ReadWrite` | ❌ **you must bring this** |
 | Knowing *how* to behave when doing either | `jaxx-consent`, `jaxx-responder` | ✅ |
+| **Blocking** a post that breaks the entry gate | [`hooks/jaxx_gate.py`](hooks/jaxx_gate.py) | ✅ opt-in, see [Enforcement](#enforcement) |
 | A heartbeat to run the watch unattended | your scheduler | ❌ |
 
 ### What you must bring yourself
@@ -175,6 +177,53 @@ summon it; anyone else naming it is ignored silently.
 
 `agent.config.json` holds directory ids — **keep it out of any public repo.** Setup adds it to
 `.gitignore` for you if the repo has a remote.
+
+## Enforcement
+
+Everything else here is prose the agent is asked to follow. Asking is not much of a guarantee: a
+long session compacts, the reasoning behind a rule drops out of context, and the rule quietly stops
+being applied. So the rails that can be decided from recorded state are also enforced in code.
+
+```
+python scripts/install_gate.py     # --print to preview, --remove to uninstall
+```
+
+Run it from a clone, or let `/jaxx-setup` offer it — the agent knows where the installed plugin
+lives, and the script writes absolute paths, so it works from any directory.
+
+That installs a `preToolUse` hook at `~/.copilot/hooks/jaxx-gate.json`. It runs before any tool
+whose name looks like it sends a message, finds the room id in the arguments, and **denies** the
+call unless your own `agent.config.json` says that room is open:
+
+| It denies when | Rail |
+| --- | --- |
+| The room is not in `chat.watch` | every room starts closed |
+| `entryGate` is not `open` | only you open a gate |
+| `mode` is not `autoreply` | `notes-only` and `draft` post nothing |
+| The room has never been introduced to, and the text isn't the approved introduction | disclosure comes first |
+
+Each denial says which rail it was and why, so the agent reads it as a consent decision rather
+than a broken tool to be worked around.
+
+**It is honest about its limits.** Authority-is-the-sender, containment across rooms, and never
+answering another agent all depend on what a message *means*. No tool-name matcher can decide
+those, and one dressed up to look as if it could would be worse than none — it would draw
+attention away from the rails that still need a careful reader. Those stay in the skill.
+
+Three things worth knowing:
+
+- **Installation is deliberate, and has to be.** Plugin-contributed hooks are documented but do
+  not fire on CLI 1.0.86 — verified against all three declaration shapes, with a user-level hook
+  firing in the same session as a control. So the gate goes in `~/.copilot/hooks/` by your own
+  command. That also suits Jaxx, where nothing is supposed to switch itself on.
+- **It fails safe in both directions.** Before it knows the call is a post, any error allows —
+  a malformed payload on an unrelated tool must never block your work. Once it knows it *is* a
+  post, any error denies, including an unreadable `agent.config.json`. No config at all means
+  Jaxx isn't set up in that repo, so it stays out of the way entirely.
+- **It needs Python 3** on `PATH`, the same as the repo's validators.
+
+Check it yourself: `python scripts/test_gate.py` runs the gate as a real subprocess against real
+payloads, and every rail in the table above has a test that proves it blocks.
 
 ## The one idea
 

@@ -203,6 +203,18 @@
         "summariseOnlyOnRequest": { "type": "boolean" },
         "lookbackMinutes": { "type": "integer", "minimum": 1 },
         "entryGateTimeoutHours": { "type": "integer", "minimum": 1 },
+        "enforcement": {
+          "type": "object",
+          "required": ["enabled", "postToolPattern"],
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "postToolPattern": { "$ref": "#/$defs/nullableString" }
+          },
+          "patternProperties": {
+            "^\\$comment(?:_[A-Za-z0-9]+)*$": {}
+          },
+          "additionalProperties": false
+        },
         "watch": {
           "type": "array",
           "items": { "$ref": "#/$defs/watchEntry" }
