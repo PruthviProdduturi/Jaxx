@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "jaxx",
+  "description": "Jaxx consent rails, guarded chat responder workflows, and repo-as-memory skills.",
+  "owner": {
+    "name": "Pruthvi Prodduturi",
+    "url": "https://github.com/PruthviProdduturi"
+  },
+  "plugins": [
+    {
+      "name": "jaxx",
+      "source": ".",
+      "description": "Consent and authority rails for agents that act in a human's name, a guarded chat responder, and repo-as-memory.",
+      "version": "0.4.0"
+    }
+  ]
+}

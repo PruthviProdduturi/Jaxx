@@ -103,6 +103,12 @@ worth taking on its own.
 
 ## Install
 
+Use Jaxx with **either GitHub Copilot CLI or Claude Code**. Choose the client you already use;
+you do not need to install both. The same consent, responder and memory skills are included in
+each package.
+
+### GitHub Copilot CLI
+
 ```
 copilot plugin marketplace add PruthviProdduturi/Jaxx
 copilot plugin install jaxx@jaxx
@@ -128,6 +134,42 @@ To pick up a later release:
 copilot plugin marketplace update jaxx
 copilot plugin update jaxx
 ```
+
+### Claude Code
+
+Jaxx uses the same `skills/` and `commands/` in Claude Code; the Claude-specific manifest lives in
+`.claude-plugin/`.
+
+```
+/plugin marketplace add PruthviProdduturi/Jaxx
+/plugin install jaxx@jaxx
+```
+
+Restart Claude Code or run `/reload-plugins`, then run:
+
+```
+/jaxx:jaxx-setup
+```
+
+Claude still needs the same external MCP reach described below. Installing the plugin supplies the
+consent rails and workflows, not Microsoft 365 or Azure DevOps credentials.
+
+### Test Jaxx
+
+If you installed Jaxx in GitHub Copilot CLI, start a Copilot session and run:
+
+```
+/jaxx-health
+```
+
+If you installed Jaxx in Claude Code, start Claude Code and run:
+
+```
+/jaxx:jaxx-health
+```
+
+The health command is read-only. It verifies plugin discovery, configuration safety, connected MCP
+reach, room gates and runtime evidence, then reports any missing setup without changing it.
 
 `/jaxx-setup` does the rest: it detects which MCP servers you actually have, discovers your own
 identity rather than asking you for a GUID, writes `agent.config.json` from the template,
@@ -257,9 +299,9 @@ and greppable with tools the agent already has. The commit log doubles as an aud
 
 ## Status
 
-`0.3.1` — fixes the Jaxx identity at the schema and setup layers so installers cannot rename the
-agent, while retaining configurable taglines and operating scope. **The responder is Microsoft Teams only**,
-via Microsoft Graph; there is no Slack or Discord path and none is planned. The `jaxx-consent` rails
-are platform-independent and are the part worth taking on their own.
+`0.4.0` — adds fail-closed consent enforcement, configuration schema validation, health checks and
+dual GitHub Copilot CLI / Claude Code packaging. **The responder is Microsoft Teams only**, via
+Microsoft Graph; there is no Slack or Discord path and none is planned. The `jaxx-consent` rails are
+platform-independent and are the part worth taking on their own.
 
 MIT licensed. Not affiliated with or endorsed by any employer.

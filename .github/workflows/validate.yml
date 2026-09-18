@@ -25,6 +25,8 @@ jobs:
       - name: Manifest and template are valid JSON
         run: |
           python -c "import json; json.load(open('plugin.json')); print('plugin.json OK')"
+          python -c "import json; json.load(open('.claude-plugin/plugin.json')); print('Claude plugin.json OK')"
+          python -c "import json; json.load(open('.claude-plugin/marketplace.json')); print('Claude marketplace.json OK')"
           python -c "import json; json.load(open('agent.config.template.json')); print('agent.config.template.json OK')"
           python -c "import json; json.load(open('agent.config.schema.json')); print('agent.config.schema.json OK')"
 

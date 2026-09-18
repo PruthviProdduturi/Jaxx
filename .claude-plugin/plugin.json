@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "jaxx",
+  "displayName": "Jaxx",
+  "version": "0.4.0",
+  "description": "Consent and authority rails for agents that act in a human's name, a guarded chat responder, and repo-as-memory.",
+  "author": {
+    "name": "Pruthvi Prodduturi",
+    "url": "https://github.com/PruthviProdduturi"
+  },
+  "homepage": "https://pruthviprodduturi.github.io/Jaxx/",
+  "repository": "https://github.com/PruthviProdduturi/Jaxx",
+  "license": "MIT",
+  "keywords": [
+    "agent-governance",
+    "consent",
+    "authority",
+    "guardrails",
+    "teams",
+    "memory"
+  ]
+}
