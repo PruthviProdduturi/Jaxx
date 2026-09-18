@@ -300,8 +300,8 @@ and greppable with tools the agent already has. The commit log doubles as an aud
 
 ## Status
 
-`0.4.0` — adds fail-closed consent enforcement, configuration schema validation, health checks and
-dual GitHub Copilot CLI / Claude Code packaging. **The responder is Microsoft Teams only**, via
+`0.4.1` — exposes the read-only health check as a discoverable GitHub Copilot CLI skill and includes
+the v0.4.0 fail-closed enforcement and dual-client packaging. **The responder is Microsoft Teams only**, via
 Microsoft Graph; there is no Slack or Discord path and none is planned. The `jaxx-consent` rails are
 platform-independent and are the part worth taking on their own.
 

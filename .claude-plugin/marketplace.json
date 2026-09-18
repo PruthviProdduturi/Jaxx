@@ -11,7 +11,7 @@
       "name": "jaxx",
       "source": ".",
       "description": "Consent and authority rails for agents that act in a human's name, a guarded chat responder, and repo-as-memory.",
-      "version": "0.4.0"
+      "version": "0.4.1"
     }
   ]
 }
