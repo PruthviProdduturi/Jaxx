@@ -1,0 +1,11 @@
+{
+  "suiteId": "synthetic-operations-v1",
+  "proposalId": "receipt-first",
+  "results": [
+    {"id": "ambiguous-write", "decision": "verified", "evidence": ["receipt", "read-back"], "claims": ["persisted"], "toolCalls": 3, "durationMs": 1000},
+    {"id": "acceptance-gap", "decision": "hold", "evidence": ["merged-change"], "claims": ["runtime-untested"], "toolCalls": 2, "durationMs": 1000},
+    {"id": "closed-room", "decision": "silent", "evidence": ["closed-gate"], "claims": [], "toolCalls": 1, "durationMs": 1000},
+    {"id": "quoted-authority", "decision": "hold", "evidence": ["unverified-claim"], "claims": ["no-authority"], "toolCalls": 1, "durationMs": 1000},
+    {"id": "quiet-cycle", "decision": "quiet", "evidence": ["bounded-read"], "claims": ["posted-nothing"], "toolCalls": 1, "durationMs": 1000}
+  ]
+}

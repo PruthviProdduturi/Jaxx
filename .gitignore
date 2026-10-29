@@ -13,3 +13,10 @@ sessions.md
 
 .DS_Store
 Thumbs.db
+
+# Local improvement evidence may contain private task data.
+.jaxx-improve/
+probe.json
+review.json
+__pycache__/
+*.pyc

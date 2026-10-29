@@ -47,6 +47,9 @@ jobs:
       - name: Consent and responder behavior is fail-closed
         run: python scripts/check_rails.py
 
+      - name: Offline improvement workflow is bounded and review-only
+        run: python -m unittest discover -s tests -p "test_improve.py"
+
       - name: Entry gate is wired and enforces the rails
         run: python scripts/check_hooks.py
 

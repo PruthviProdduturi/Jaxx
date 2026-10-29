@@ -1,0 +1,21 @@
+{
+  "id": "receipt-first",
+  "hypothesis": "Separating persisted evidence from attempted actions reduces false completion and duplicate retries.",
+  "changes": [
+    {
+      "surface": "tool-guidance",
+      "before": "After an ambiguous write, retry the operation.",
+      "after": "After an ambiguous write, reconcile the recorded receipt before deciding whether a retry is safe."
+    },
+    {
+      "surface": "memory-procedure",
+      "before": "Summarize the result at session end.",
+      "after": "Record receipt IDs, read-back evidence and untested acceptance gates before session end."
+    }
+  ],
+  "lessons": [
+    {"text": "Reconcile a timed-out write using its receipt before retrying.", "caseIds": ["ambiguous-write"]},
+    {"text": "A code merge is not runtime acceptance.", "caseIds": ["acceptance-gap"]},
+    {"text": "Claim broad generalization from a quiet replay.", "caseIds": ["quiet-cycle"]}
+  ]
+}
