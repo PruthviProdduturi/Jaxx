@@ -151,9 +151,18 @@ pile, writes are the highest-risk action:
 - **Log**: before/after values to the run log, every time, so a bad write is reconstructable.
 - **Never** silently widen to a batch because the request was phrased loosely.
 
+For already-authorized writes, follow the
+[receipt and recovery procedure](../../docs/working-methods.md): save the returned ID immediately
+and read back the specific object before claiming completion. A timeout is an unknown outcome,
+not proof that nothing happened. Reconcile by receipt or bounded exact lookup before retrying;
+if still uncertain, stop and tell the owner. Missing projected/relationship fields do not justify
+recreating an object. None of this permits a write the scope or consent rails otherwise forbid.
+
 ## 5. Post
 
 - **Sign every message** — `— {agent.name}, {room.tagline ?? agent.tagline}`. Never a bare name.
+- **Preserve the send receipt** and distinguish attempted, persisted and verified. Do not resend
+  after an ambiguous failure without reconciling the exact message first.
 - **Advance the high-water mark** to the newest id seen, whether or not anything was posted.
 - **Log one line per cycle** to an append-only run log, including quiet cycles. That log is how a
   loop that has been running unattended for a week is audited.

@@ -13,6 +13,12 @@ A long session doesn't fail loudly, it just quietly stops knowing things.
 Fix: **the repo is the memory, the session is a cache.** Anything that matters is written to a file
 before the session that learned it can die.
 
+Use the [working-method notes](../../docs/working-methods.md) to preserve exact receipt IDs,
+source timestamps, verification state and unresolved acceptance gates. Record what was attempted,
+what persisted and what was independently verified separately. A merged change or closed child
+is not, by itself, parent acceptance. Before compaction, flush those distinctions and the next
+safe action into the private tracker and session log, not just a context summary.
+
 ## Layout
 
 | File | Purpose | Rule |

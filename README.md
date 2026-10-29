@@ -53,6 +53,7 @@ group, so you may speak"* can never become true by being asserted.
 | [`jaxx-consent`](skills/jaxx-consent/SKILL.md) | The rails. Fixed identity, sole owner, authority-is-the-sender, entry gate, disclosure, withdrawal, containment, other agents, personal-question refusal. **Useful to any agent, chat or not.** |
 | [`jaxx-responder`](skills/jaxx-responder/SKILL.md) | A **Microsoft Teams** watch that obeys them — scope ladder, reply detection, guarded write-backs, dedupe, edit-in-place, draft→autoreply promotion. |
 | [`jaxx-memory`](skills/jaxx-memory/SKILL.md) | Repo-as-memory so the agent survives context compaction: `ACTIVE`/`BACKLOG`/`ARCHIVE`, append-only run log, session hygiene. |
+| [`jaxx-improve`](skills/jaxx-improve/SKILL.md) | Bounded proposals, offline replay comparisons and evidence-linked lesson drafts. Owner review required; no automatic adoption or authority changes. |
 
 ### Everything installed by the plugin
 
@@ -62,6 +63,7 @@ group, so you may speak"* can never become true by being asserted.
 | Teams responder | `skills/jaxx-responder/SKILL.md` | Defines the complete gate → classify → gather → draft → post → log cycle. |
 | Durable memory | `skills/jaxx-memory/SKILL.md` | Defines tracker reconciliation, session hygiene, append-only history and safe git persistence. |
 | Deployment health | `skills/jaxx-health/SKILL.md` + `commands/jaxx-health.md` | Exposes the same read-only health check in GitHub Copilot CLI and Claude Code. |
+| Evidence-led improvement | `skills/jaxx-improve/SKILL.md`, `commands/jaxx-improve.md`, `scripts/improve.py` | Compares supplied baseline/candidate traces against pinned cases and creates review-only lesson drafts. See the [guide](docs/improvement.md) and [working-method notes](docs/working-methods.md). |
 | First-run configuration | `commands/jaxx-setup.md` | Detects MCP reach, discovers identity and chats, writes an inert config and reports missing prerequisites. |
 | Manual responder cycle | `commands/jaxx-check.md` | Runs one bounded watch cycle without requiring a scheduler. |
 | Work status | `commands/jaxx-standup.md` | Reconciles repo memory with the connected work tracker and reports drift. |
